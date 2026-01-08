@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 
 interface PGCardProps {
   pg: PG;
-  hidePrice?: boolean;
 }
 
 const amenityIcons: Record<string, React.ReactNode> = {
@@ -15,7 +14,7 @@ const amenityIcons: Record<string, React.ReactNode> = {
   power_backup: <Zap className="w-3 h-3" />,
 };
 
-const PGCard = ({ pg, hidePrice = false }: PGCardProps) => {
+const PGCard = ({ pg }: PGCardProps) => {
   return (
     <Link to={`/pg/${pg.id}`} className="block">
       <article className="card-interactive overflow-hidden group">
@@ -62,15 +61,6 @@ const PGCard = ({ pg, hidePrice = false }: PGCardProps) => {
             <span className="text-xs">• {pg.distance} km</span>
           </div>
 
-          {/* Price */}
-          {!hidePrice && (
-            <div className="flex items-baseline gap-1 mb-3">
-              <span className="text-xl font-bold text-foreground">
-                ₹{pg.rent.toLocaleString()}
-              </span>
-              <span className="text-sm text-muted-foreground">/month</span>
-            </div>
-          )}
 
           {/* Tags */}
           <div className="flex flex-wrap gap-1.5">

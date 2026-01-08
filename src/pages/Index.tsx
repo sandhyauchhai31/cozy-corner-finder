@@ -104,7 +104,7 @@ const Index = () => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
             {featuredPGs.map((pg) => (
-              <PGCard key={pg.id} pg={pg} hidePrice />
+              <PGCard key={pg.id} pg={pg} />
             ))}
           </div>
         </section>
