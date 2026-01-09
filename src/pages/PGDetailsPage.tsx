@@ -225,10 +225,9 @@ const PGDetailsPage = () => {
             {/* Featured PGs */}
             <div className="bg-card rounded-xl p-5 shadow-card">
               <h2 className="font-semibold text-foreground mb-4">Similar PGs</h2>
-              <div className="space-y-4">
+              <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin">
                 {mockPGs
                   .filter((p) => p.id !== pg.id)
-                  .slice(0, 3)
                   .map((featuredPg) => (
                     <PGCard key={featuredPg.id} pg={featuredPg} />
                   ))}
