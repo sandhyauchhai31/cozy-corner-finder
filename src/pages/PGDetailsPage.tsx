@@ -185,12 +185,9 @@ const PGDetailsPage = () => {
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Right Sidebar */}
-          <div className="hidden lg:block space-y-6">
-            {/* Contact Card */}
-            <div className="bg-card rounded-xl p-5 shadow-card sticky top-20">
+            {/* Contact Card - Desktop only, below location */}
+            <div className="hidden lg:block bg-card rounded-xl p-5 shadow-card">
               <div className="text-center mb-6">
                 <p className="text-sm text-muted-foreground mb-1">Starting from</p>
                 <p className="text-3xl font-bold text-foreground">
@@ -221,8 +218,10 @@ const PGDetailsPage = () => {
                 Contact the owner directly for bookings
               </p>
             </div>
+          </div>
 
-            {/* Featured PGs */}
+          {/* Right Sidebar - Similar PGs only */}
+          <div className="hidden lg:block space-y-6">
             <div className="bg-card rounded-xl p-5 shadow-card">
               <h2 className="font-semibold text-foreground mb-4">Similar PGs</h2>
               <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin">
