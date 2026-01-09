@@ -5,8 +5,8 @@ import ImageGallery from "@/components/ImageGallery";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { getPGById } from "@/data/mockPGs";
-
+import { getPGById, mockPGs } from "@/data/mockPGs";
+import PGCard from "@/components/PGCard";
 const amenityDetails: Record<string, { icon: React.ReactNode; label: string }> = {
   wifi: { icon: <Wifi className="w-5 h-5" />, label: "WiFi" },
   ac: { icon: <Wind className="w-5 h-5" />, label: "AC" },
@@ -65,7 +65,7 @@ const PGDetailsPage = () => {
         </Link>
 
         <div className="grid lg:grid-cols-3 gap-6">
-          {/* Main Content */}
+          {/* Left Side - Price & Details */}
           <div className="lg:col-span-2 space-y-6">
             {/* Image Gallery */}
             <ImageGallery images={pg.images} name={pg.name} />
@@ -187,8 +187,9 @@ const PGDetailsPage = () => {
             </div>
           </div>
 
-          {/* Sidebar - Desktop */}
-          <div className="hidden lg:block">
+          {/* Right Sidebar */}
+          <div className="hidden lg:block space-y-6">
+            {/* Contact Card */}
             <div className="bg-card rounded-xl p-5 shadow-card sticky top-20">
               <div className="text-center mb-6">
                 <p className="text-sm text-muted-foreground mb-1">Starting from</p>
@@ -219,6 +220,19 @@ const PGDetailsPage = () => {
               <p className="text-xs text-muted-foreground text-center mt-4">
                 Contact the owner directly for bookings
               </p>
+            </div>
+
+            {/* Featured PGs */}
+            <div className="bg-card rounded-xl p-5 shadow-card">
+              <h2 className="font-semibold text-foreground mb-4">Similar PGs</h2>
+              <div className="space-y-4">
+                {mockPGs
+                  .filter((p) => p.id !== pg.id)
+                  .slice(0, 3)
+                  .map((featuredPg) => (
+                    <PGCard key={featuredPg.id} pg={featuredPg} />
+                  ))}
+              </div>
             </div>
           </div>
         </div>
