@@ -14,7 +14,114 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      checkouts: {
+        Row: {
+          check_in_date: string | null
+          check_out_date: string | null
+          created_at: string
+          id: string
+          pg_id: string
+          pg_location: string | null
+          pg_name: string
+          pg_price: number | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          check_in_date?: string | null
+          check_out_date?: string | null
+          created_at?: string
+          id?: string
+          pg_id: string
+          pg_location?: string | null
+          pg_name: string
+          pg_price?: number | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          check_in_date?: string | null
+          check_out_date?: string | null
+          created_at?: string
+          id?: string
+          pg_id?: string
+          pg_location?: string | null
+          pg_name?: string
+          pg_price?: number | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      saved_pgs: {
+        Row: {
+          created_at: string
+          id: string
+          pg_id: string
+          pg_image: string | null
+          pg_location: string | null
+          pg_name: string
+          pg_price: number | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          pg_id: string
+          pg_image?: string | null
+          pg_location?: string | null
+          pg_name: string
+          pg_price?: number | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          pg_id?: string
+          pg_image?: string | null
+          pg_location?: string | null
+          pg_name?: string
+          pg_price?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
