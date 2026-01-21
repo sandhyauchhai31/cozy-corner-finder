@@ -1,12 +1,17 @@
-import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, Phone, MessageCircle, MapPin, Star, Shield, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Clock, Info, Users, Building } from "lucide-react";
+import { useState } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Info, Users, Building } from "lucide-react";
 import Header from "@/components/Header";
 import ImageGallery from "@/components/ImageGallery";
+import ReserveCard from "@/components/ReserveCard";
+import CheckoutDialog from "@/components/CheckoutDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { getPGById, mockPGs } from "@/data/mockPGs";
 import PGCard from "@/components/PGCard";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
+
 const amenityDetails: Record<string, { icon: React.ReactNode; label: string }> = {
   wifi: { icon: <Wifi className="w-5 h-5" />, label: "WiFi" },
   ac: { icon: <Wind className="w-5 h-5" />, label: "AC" },
@@ -19,7 +24,24 @@ const amenityDetails: Record<string, { icon: React.ReactNode; label: string }> =
 
 const PGDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const pg = getPGById(id || "");
+
+  const handleReserveClick = () => {
+    if (!user) {
+      toast({
+        title: "Login required",
+        description: "Please login to make a reservation",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+    setCheckoutOpen(true);
+  };
 
   if (!pg) {
     return (
@@ -37,18 +59,6 @@ const PGDetailsPage = () => {
       </div>
     );
   }
-
-  const handleCall = () => {
-    window.location.href = `tel:${pg.ownerPhone}`;
-  };
-
-  const handleWhatsApp = () => {
-    const message = `Hi, I'm interested in ${pg.name}. Is it available?`;
-    window.open(
-      `https://wa.me/${pg.ownerWhatsApp.replace("+", "")}?text=${encodeURIComponent(message)}`,
-      "_blank"
-    );
-  };
 
   return (
     <div className="min-h-screen bg-background pb-24 md:pb-0">
@@ -186,47 +196,20 @@ const PGDetailsPage = () => {
               </div>
             </div>
 
-            {/* Contact Card - Desktop only, below location */}
-            <div className="hidden lg:block bg-card rounded-xl p-5 shadow-card">
-              <div className="text-center mb-6">
-                <p className="text-sm text-muted-foreground mb-1">Starting from</p>
-                <p className="text-3xl font-bold text-foreground">
-                  ₹{pg.rent.toLocaleString()}
-                </p>
-                <p className="text-sm text-muted-foreground">per month</p>
-              </div>
-
-              <Separator className="my-4" />
-
-              <div className="space-y-3">
-                <Button onClick={handleCall} size="lg" className="w-full gap-2">
-                  <Phone className="w-4 h-4" />
-                  Call Owner
-                </Button>
-                <Button
-                  onClick={handleWhatsApp}
-                  variant="outline"
-                  size="lg"
-                  className="w-full gap-2 border-success text-success hover:bg-success hover:text-success-foreground"
-                >
-                  <MessageCircle className="w-4 h-4" />
-                  WhatsApp
-                </Button>
-              </div>
-
-              <p className="text-xs text-muted-foreground text-center mt-4">
-                Contact the owner directly for bookings
-              </p>
-            </div>
           </div>
 
-          {/* Right Sidebar - Similar PGs only */}
+          {/* Right Sidebar - Reserve Card & Similar PGs */}
           <div className="hidden lg:block space-y-6">
+            {/* Reserve Card */}
+            <ReserveCard pg={pg} />
+
+            {/* Similar PGs */}
             <div className="bg-card rounded-xl p-5 shadow-card">
               <h2 className="font-semibold text-foreground mb-4">Similar PGs</h2>
-              <div className="space-y-4 max-h-[600px] overflow-y-auto pr-2 scrollbar-thin">
+              <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin">
                 {mockPGs
                   .filter((p) => p.id !== pg.id)
+                  .slice(0, 3)
                   .map((featuredPg) => (
                     <PGCard key={featuredPg.id} pg={featuredPg} />
                   ))}
@@ -238,26 +221,19 @@ const PGDetailsPage = () => {
 
       {/* Mobile Sticky CTA */}
       <div className="lg:hidden sticky-bottom-bar safe-bottom">
-        <div className="flex gap-3">
-          <Button
-            onClick={handleCall}
-            size="lg"
-            className="flex-1 gap-2"
-          >
-            <Phone className="w-4 h-4" />
-            Call
-          </Button>
-          <Button
-            onClick={handleWhatsApp}
-            variant="outline"
-            size="lg"
-            className="flex-1 gap-2 border-success text-success"
-          >
-            <MessageCircle className="w-4 h-4" />
-            WhatsApp
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-lg font-bold">₹{Math.round(pg.rent / 30).toLocaleString()}</span>
+            <span className="text-muted-foreground text-sm"> / night</span>
+          </div>
+          <Button onClick={handleReserveClick} size="lg" className="px-8">
+            Reserve
           </Button>
         </div>
       </div>
+
+      {/* Checkout Dialog for Mobile */}
+      <CheckoutDialog pg={pg} open={checkoutOpen} onOpenChange={setCheckoutOpen} />
     </div>
   );
 };
