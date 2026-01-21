@@ -1,7 +1,9 @@
 import { Link } from "react-router-dom";
-import { MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils } from "lucide-react";
+import { MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Heart } from "lucide-react";
 import { PG } from "@/types/pg";
 import { Badge } from "@/components/ui/badge";
+import { useWishlist } from "@/hooks/useWishlist";
+import { cn } from "@/lib/utils";
 
 interface PGCardProps {
   pg: PG;
@@ -15,6 +17,15 @@ const amenityIcons: Record<string, React.ReactNode> = {
 };
 
 const PGCard = ({ pg }: PGCardProps) => {
+  const { toggleWishlist, isInWishlist, loading } = useWishlist();
+  const isSaved = isInWishlist(pg.id);
+
+  const handleWishlistClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleWishlist(pg);
+  };
+
   return (
     <Link to={`/pg/${pg.id}`} className="block">
       <article className="card-interactive overflow-hidden group">
@@ -26,8 +37,26 @@ const PGCard = ({ pg }: PGCardProps) => {
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />
+          {/* Wishlist Button */}
+          <button
+            onClick={handleWishlistClick}
+            disabled={loading}
+            className={cn(
+              "absolute top-3 right-3 w-8 h-8 rounded-full flex items-center justify-center transition-all",
+              "bg-card/90 backdrop-blur-sm hover:bg-card shadow-md",
+              isSaved && "text-destructive"
+            )}
+            aria-label={isSaved ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <Heart 
+              className={cn(
+                "w-4 h-4 transition-all",
+                isSaved ? "fill-current" : "text-muted-foreground"
+              )} 
+            />
+          </button>
           {/* Rating Badge */}
-          <div className="absolute top-3 right-3 rating-badge">
+          <div className="absolute bottom-3 right-3 rating-badge">
             <Star className="w-3 h-3 fill-current" />
             <span>{pg.rating}</span>
           </div>
