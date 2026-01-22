@@ -198,23 +198,23 @@ const PGDetailsPage = () => {
 
           </div>
 
-          {/* Right Sidebar - Reserve Card & Similar PGs */}
-          <div className="hidden lg:block space-y-6">
-            {/* Reserve Card */}
-            <ReserveCard pg={pg} />
-
-            {/* Similar PGs */}
-            <div className="bg-card rounded-xl p-5 shadow-card">
-              <h2 className="font-semibold text-foreground mb-4">Similar PGs</h2>
-              <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin">
-                {mockPGs
-                  .filter((p) => p.id !== pg.id)
-                  .slice(0, 3)
-                  .map((featuredPg) => (
-                    <PGCard key={featuredPg.id} pg={featuredPg} />
-                  ))}
-              </div>
+          {/* Right Sidebar - Reserve Card */}
+          <div className="hidden lg:block">
+            <div className="sticky top-24">
+              <ReserveCard pg={pg} />
             </div>
+          </div>
+        </div>
+
+        {/* Similar PGs - Full Width Section */}
+        <div className="mt-8">
+          <h2 className="font-semibold text-foreground text-xl mb-4">Similar PGs</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {mockPGs
+              .filter((p) => p.id !== pg.id)
+              .map((featuredPg) => (
+                <PGCard key={featuredPg.id} pg={featuredPg} />
+              ))}
           </div>
         </div>
       </main>
