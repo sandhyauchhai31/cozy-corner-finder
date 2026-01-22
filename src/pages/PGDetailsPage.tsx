@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Info, Users, Building } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Info, Users, Building, Bed, Bath } from "lucide-react";
 import Header from "@/components/Header";
 import ImageGallery from "@/components/ImageGallery";
 import ReserveCard from "@/components/ReserveCard";
@@ -79,6 +79,32 @@ const PGDetailsPage = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Image Gallery */}
             <ImageGallery images={pg.images} name={pg.name} />
+
+            {/* Room Details - Sharing & Bathroom Info */}
+            <div className="flex flex-wrap gap-4">
+              <div className="flex items-center gap-3 bg-card rounded-xl px-4 py-3 shadow-card flex-1 min-w-[140px]">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Bed className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Room Sharing</p>
+                  <p className="font-semibold text-foreground">
+                    {pg.roomSharing === 1 ? "Private Room" : `${pg.roomSharing} Sharing`}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 bg-card rounded-xl px-4 py-3 shadow-card flex-1 min-w-[140px]">
+                <div className="p-2 bg-primary/10 rounded-lg">
+                  <Bath className="w-5 h-5 text-primary" />
+                </div>
+                <div>
+                  <p className="text-xs text-muted-foreground">Bathroom</p>
+                  <p className="font-semibold text-foreground capitalize">
+                    {pg.bathroomType === "private" ? "Private Bathroom" : "Shared Bathroom"}
+                  </p>
+                </div>
+              </div>
+            </div>
 
             {/* Header Info */}
             <div className="bg-card rounded-xl p-5 shadow-card">

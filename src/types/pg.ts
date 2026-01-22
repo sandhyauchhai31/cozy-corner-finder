@@ -2,6 +2,8 @@ export type Gender = "boys" | "girls" | "coliving";
 export type FoodType = "veg" | "nonveg" | "both";
 export type Amenity = "wifi" | "ac" | "laundry" | "parking" | "power_backup" | "gym" | "pool";
 
+export type BathroomType = "private" | "shared";
+
 export interface PG {
   id: string;
   name: string;
@@ -22,6 +24,8 @@ export interface PG {
   ownerWhatsApp: string;
   rules: string[];
   description: string;
+  roomSharing: number; // e.g., 2, 3, 4 people per room
+  bathroomType: BathroomType;
 }
 
 export interface SearchFilters {

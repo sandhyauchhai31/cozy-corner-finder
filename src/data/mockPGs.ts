@@ -25,6 +25,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543210",
     rules: ["No smoking", "Entry before 10 PM", "No loud music after 11 PM"],
     description: "Comfortable and well-maintained PG with all modern amenities. Perfect for working professionals and students.",
+    roomSharing: 3,
+    bathroomType: "shared",
   },
   {
     id: "2",
@@ -50,6 +52,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543211",
     rules: ["No male visitors after 8 PM", "Entry before 9:30 PM", "Maintain cleanliness"],
     description: "Premium girls hostel with 24/7 security, homely food, and spacious rooms. Ideal for working women.",
+    roomSharing: 2,
+    bathroomType: "private",
   },
   {
     id: "3",
@@ -75,6 +79,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543212",
     rules: ["No smoking inside", "Respect quiet hours", "Clean common areas after use"],
     description: "Modern co-living space with community events, coworking area, and premium amenities.",
+    roomSharing: 1,
+    bathroomType: "private",
   },
   {
     id: "4",
@@ -99,6 +105,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543213",
     rules: ["No alcohol", "Maintain silence after 11 PM"],
     description: "Affordable accommodation for students and freshers. Basic amenities at a budget price.",
+    roomSharing: 4,
+    bathroomType: "shared",
   },
   {
     id: "5",
@@ -124,6 +132,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543214",
     rules: ["Strict 9 PM curfew", "No overnight guests", "Weekly room inspection"],
     description: "Safe and secure ladies PG with homely atmosphere and delicious vegetarian food.",
+    roomSharing: 2,
+    bathroomType: "shared",
   },
   {
     id: "6",
@@ -149,6 +159,8 @@ export const mockPGs: PG[] = [
     ownerWhatsApp: "+919876543215",
     rules: ["Noise curfew after 10 PM", "Guests allowed with prior notice", "No pets"],
     description: "Luxury co-living with swimming pool, gym, and community lounge. All-inclusive rent.",
+    roomSharing: 1,
+    bathroomType: "private",
   },
 ];
 
