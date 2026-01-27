@@ -81,7 +81,7 @@ const PGDetailsPage = () => {
             <ImageGallery images={pg.images} name={pg.name} />
 
             {/* Room Details - Sharing & Bathroom Info */}
-            <div className="flex flex-wrap gap-4">
+            {/* <div className="flex flex-wrap gap-4">
               <div className="flex items-center gap-3 bg-card rounded-xl px-4 py-3 shadow-card flex-1 min-w-[140px]">
                 <div className="p-2 bg-primary/10 rounded-lg">
                   <Bed className="w-5 h-5 text-primary" />
@@ -104,7 +104,7 @@ const PGDetailsPage = () => {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Header Info */}
             <div className="bg-card rounded-xl p-5 shadow-card">
