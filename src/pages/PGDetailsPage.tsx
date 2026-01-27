@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Info, Users, Building, Bed, Bath } from "lucide-react";
+import { ArrowLeft, MapPin, Star, Wifi, Wind, Car, Zap, BadgeCheck, Utensils, Info, Users, Building } from "lucide-react";
 import Header from "@/components/Header";
 import ImageGallery from "@/components/ImageGallery";
 import ReserveCard from "@/components/ReserveCard";
+import RoomSelector, { type RoomOption } from "@/components/RoomSelector";
 import CheckoutDialog from "@/components/CheckoutDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,7 @@ const PGDetailsPage = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [selectedRoom, setSelectedRoom] = useState<RoomOption | null>(null);
   const pg = getPGById(id || "");
 
   const handleReserveClick = () => {
@@ -138,23 +140,13 @@ const PGDetailsPage = () => {
               <p className="text-muted-foreground">{pg.description}</p>
             </div>
 
-            {/* Pricing */}
+            {/* Room Selection */}
             <div className="bg-card rounded-xl p-5 shadow-card">
-              <h2 className="font-semibold text-foreground mb-4">Pricing</h2>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-accent rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-1">Monthly Rent</p>
-                  <p className="text-2xl font-bold text-foreground">
-                    ₹{pg.rent.toLocaleString()}
-                  </p>
-                </div>
-                <div className="bg-muted rounded-lg p-4">
-                  <p className="text-sm text-muted-foreground mb-1">Security Deposit</p>
-                  <p className="text-2xl font-bold text-foreground">
-                    ₹{pg.deposit.toLocaleString()}
-                  </p>
-                </div>
-              </div>
+              <RoomSelector
+                rooms={pg.rooms}
+                selectedRoom={selectedRoom}
+                onSelectRoom={setSelectedRoom}
+              />
             </div>
 
             {/* Amenities */}
@@ -227,7 +219,7 @@ const PGDetailsPage = () => {
           {/* Right Sidebar - Reserve Card */}
           <div className="hidden lg:block">
             <div className="sticky top-24">
-              <ReserveCard pg={pg} />
+              <ReserveCard pg={pg} selectedRoom={selectedRoom} />
             </div>
           </div>
         </div>
@@ -249,11 +241,22 @@ const PGDetailsPage = () => {
       <div className="lg:hidden sticky-bottom-bar safe-bottom">
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-lg font-bold">₹{Math.round(pg.rent / 30).toLocaleString()}</span>
-            <span className="text-muted-foreground text-sm"> / night</span>
+            <span className="text-sm text-muted-foreground">From </span>
+            <span className="text-lg font-bold">
+              ₹{(selectedRoom?.rent ?? pg.rent).toLocaleString()}
+            </span>
+            <span className="text-muted-foreground text-sm"> / month</span>
+            {selectedRoom && (
+              <p className="text-xs text-primary">{selectedRoom.name}</p>
+            )}
           </div>
-          <Button onClick={handleReserveClick} size="lg" className="px-8">
-            Reserve
+          <Button 
+            onClick={handleReserveClick} 
+            size="lg" 
+            className="px-8"
+            disabled={!selectedRoom}
+          >
+            {selectedRoom ? "Reserve" : "Select Room"}
           </Button>
         </div>
       </div>
