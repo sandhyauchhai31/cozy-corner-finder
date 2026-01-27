@@ -4,6 +4,18 @@ export type Amenity = "wifi" | "ac" | "laundry" | "parking" | "power_backup" | "
 
 export type BathroomType = "private" | "shared";
 
+export interface RoomType {
+  id: string;
+  name: string;
+  description: string;
+  sleeps: number;
+  bathroomType: BathroomType;
+  rent: number;
+  deposit: number;
+  available: number;
+  isPopular?: boolean;
+}
+
 export interface PG {
   id: string;
   name: string;
@@ -12,7 +24,7 @@ export interface PG {
   longitude: number;
   rating: number;
   reviewCount: number;
-  rent: number;
+  rent: number; // Base rent (minimum)
   deposit: number;
   gender: Gender;
   food: FoodType;
@@ -26,6 +38,7 @@ export interface PG {
   description: string;
   roomSharing: number; // e.g., 2, 3, 4 people per room
   bathroomType: BathroomType;
+  rooms: RoomType[]; // Available room options
 }
 
 export interface SearchFilters {
