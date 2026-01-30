@@ -14,6 +14,7 @@ export interface RoomType {
   deposit: number;
   available: number;
   isPopular?: boolean;
+  images: string[];
 }
 
 export interface PG {

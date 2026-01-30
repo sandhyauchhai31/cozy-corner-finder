@@ -38,6 +38,10 @@ export const mockPGs: PG[] = [
         deposit: 13000,
         available: 5,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "1-3share",
@@ -48,6 +52,10 @@ export const mockPGs: PG[] = [
         rent: 7500,
         deposit: 15000,
         available: 3,
+        images: [
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "1-2share",
@@ -58,6 +66,10 @@ export const mockPGs: PG[] = [
         rent: 8500,
         deposit: 17000,
         available: 2,
+        images: [
+          "https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1598928506311-c55ece89a2cc8?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
@@ -98,6 +110,10 @@ export const mockPGs: PG[] = [
         deposit: 18000,
         available: 4,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1520277739336-7bf67edfa768?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1631049552057-403cdb8f0658?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "2-2share",
@@ -108,6 +124,10 @@ export const mockPGs: PG[] = [
         rent: 12000,
         deposit: 24000,
         available: 2,
+        images: [
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "2-private",
@@ -118,6 +138,11 @@ export const mockPGs: PG[] = [
         rent: 15000,
         deposit: 30000,
         available: 1,
+        images: [
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1560185007-c5ca9d2c0862?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
@@ -158,6 +183,10 @@ export const mockPGs: PG[] = [
         deposit: 24000,
         available: 6,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "3-private",
@@ -168,6 +197,10 @@ export const mockPGs: PG[] = [
         rent: 15000,
         deposit: 30000,
         available: 3,
+        images: [
+          "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "3-deluxe",
@@ -178,6 +211,11 @@ export const mockPGs: PG[] = [
         rent: 18000,
         deposit: 36000,
         available: 1,
+        images: [
+          "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
@@ -217,6 +255,9 @@ export const mockPGs: PG[] = [
         deposit: 10000,
         available: 8,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "4-3share",
@@ -227,6 +268,9 @@ export const mockPGs: PG[] = [
         rent: 6000,
         deposit: 12000,
         available: 4,
+        images: [
+          "https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
@@ -267,6 +311,10 @@ export const mockPGs: PG[] = [
         deposit: 15000,
         available: 5,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "5-2share",
@@ -277,6 +325,9 @@ export const mockPGs: PG[] = [
         rent: 9500,
         deposit: 19000,
         available: 3,
+        images: [
+          "https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "5-private",
@@ -287,6 +338,10 @@ export const mockPGs: PG[] = [
         rent: 11000,
         deposit: 22000,
         available: 1,
+        images: [
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
@@ -327,6 +382,10 @@ export const mockPGs: PG[] = [
         deposit: 28000,
         available: 4,
         isPopular: true,
+        images: [
+          "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "6-private",
@@ -337,6 +396,10 @@ export const mockPGs: PG[] = [
         rent: 18000,
         deposit: 36000,
         available: 2,
+        images: [
+          "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1560185007-c5ca9d2c0862?w=400&h=300&fit=crop",
+        ],
       },
       {
         id: "6-deluxe",
@@ -347,6 +410,11 @@ export const mockPGs: PG[] = [
         rent: 22000,
         deposit: 44000,
         available: 1,
+        images: [
+          "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-600566753190-17f0baa2a6c3?w=400&h=300&fit=crop",
+          "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=400&h=300&fit=crop",
+        ],
       },
     ],
   },
