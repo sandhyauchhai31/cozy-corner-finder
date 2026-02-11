@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import ImageGallery from "@/components/ImageGallery";
 import ReserveCard from "@/components/ReserveCard";
 import RoomSelector, { type RoomOption } from "@/components/RoomSelector";
-import CheckoutDialog from "@/components/CheckoutDialog";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getPGById, mockPGs } from "@/data/mockPGs";
@@ -28,7 +27,6 @@ const PGDetailsPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const { toast } = useToast();
-  const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [selectedRoom, setSelectedRoom] = useState<RoomOption | null>(null);
   const pg = getPGById(id || "");
 
@@ -42,7 +40,8 @@ const PGDetailsPage = () => {
       navigate("/auth");
       return;
     }
-    setCheckoutOpen(true);
+    if (!selectedRoom) return;
+    navigate("/checkout", { state: { pg, room: selectedRoom } });
   };
 
   if (!pg) {
@@ -260,9 +259,6 @@ const PGDetailsPage = () => {
           </Button>
         </div>
       </div>
-
-      {/* Checkout Dialog for Mobile */}
-      <CheckoutDialog pg={pg} open={checkoutOpen} onOpenChange={setCheckoutOpen} />
     </div>
   );
 };

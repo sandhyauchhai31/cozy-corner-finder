@@ -28,12 +28,8 @@ const ReserveCard = ({ pg, selectedRoom }: ReserveCardProps) => {
       navigate("/auth");
       return;
     }
-    // Navigate to a checkout flow or open dialog
-    toast({
-      title: "Reservation initiated",
-      description: "Redirecting to complete your booking...",
-    });
-    navigate("/profile");
+    if (!selectedRoom) return;
+    navigate("/checkout", { state: { pg, room: selectedRoom } });
   };
 
   return (
