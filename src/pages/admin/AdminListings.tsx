@@ -52,6 +52,18 @@ const emptyPG: Partial<PG> = {
   description: "",
   amenities: [],
   verified: false,
+  rooms: [],
+  images: [],
+  rules: [],
+  rating: 0,
+  reviewCount: 0,
+  latitude: 0,
+  longitude: 0,
+  distance: 0,
+  ownerPhone: "",
+  ownerWhatsApp: "",
+  roomSharing: 2,
+  bathroomType: "shared" as const,
 };
 
 const AdminListings = () => {
