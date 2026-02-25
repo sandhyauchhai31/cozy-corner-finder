@@ -56,6 +56,87 @@ export type Database = {
         }
         Relationships: []
       }
+      pg_listings: {
+        Row: {
+          address: string
+          amenities: string[]
+          bathroom_type: string
+          created_at: string
+          deposit: number
+          description: string
+          distance: number
+          food: string
+          gender: string
+          id: string
+          images: string[]
+          latitude: number
+          longitude: number
+          name: string
+          owner_phone: string
+          owner_whatsapp: string
+          rating: number
+          rent: number
+          review_count: number
+          room_sharing: number
+          rooms: Json
+          rules: string[]
+          updated_at: string
+          verified: boolean
+        }
+        Insert: {
+          address: string
+          amenities?: string[]
+          bathroom_type?: string
+          created_at?: string
+          deposit?: number
+          description?: string
+          distance?: number
+          food?: string
+          gender?: string
+          id?: string
+          images?: string[]
+          latitude?: number
+          longitude?: number
+          name: string
+          owner_phone?: string
+          owner_whatsapp?: string
+          rating?: number
+          rent?: number
+          review_count?: number
+          room_sharing?: number
+          rooms?: Json
+          rules?: string[]
+          updated_at?: string
+          verified?: boolean
+        }
+        Update: {
+          address?: string
+          amenities?: string[]
+          bathroom_type?: string
+          created_at?: string
+          deposit?: number
+          description?: string
+          distance?: number
+          food?: string
+          gender?: string
+          id?: string
+          images?: string[]
+          latitude?: number
+          longitude?: number
+          name?: string
+          owner_phone?: string
+          owner_whatsapp?: string
+          rating?: number
+          rent?: number
+          review_count?: number
+          room_sharing?: number
+          rooms?: Json
+          rules?: string[]
+          updated_at?: string
+          verified?: boolean
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null

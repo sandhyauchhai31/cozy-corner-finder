@@ -7,7 +7,8 @@ import ReserveCard from "@/components/ReserveCard";
 import RoomSelector, { type RoomOption } from "@/components/RoomSelector";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { getPGById, mockPGs } from "@/data/mockPGs";
+import { mockPGs } from "@/data/mockPGs";
+import { usePGListings } from "@/hooks/usePGListings";
 import PGCard from "@/components/PGCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
@@ -28,7 +29,8 @@ const PGDetailsPage = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [selectedRoom, setSelectedRoom] = useState<RoomOption | null>(null);
-  const pg = getPGById(id || "");
+  const { data: allPGs = [] } = usePGListings();
+  const pg = allPGs.find((p) => p.id === (id || ""));
 
   const handleReserveClick = () => {
     if (!user) {
