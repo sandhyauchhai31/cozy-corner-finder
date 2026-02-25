@@ -5,13 +5,13 @@ import SearchBar from "@/components/SearchBar";
 import FilterPanel from "@/components/FilterPanel";
 import PGCard from "@/components/PGCard";
 import PGCardSkeleton from "@/components/PGCardSkeleton";
-import { filterPGs } from "@/data/mockPGs";
+import { usePGListings } from "@/hooks/usePGListings";
 import { PG } from "@/types/pg";
 import { Search, MapPin } from "lucide-react";
 
 const SearchPage = () => {
   const [searchParams] = useSearchParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const { data: allPGs = [], isLoading: isLoadingPGs } = usePGListings();
   const [results, setResults] = useState<PG[]>([]);
   
   const [filters, setFilters] = useState({
@@ -25,22 +25,18 @@ const SearchPage = () => {
   const location = searchParams.get("location") || "";
 
   useEffect(() => {
-    // Simulate loading
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      const filtered = filterPGs({
-        gender: filters.gender,
-        food: filters.food,
-        minRent: filters.minRent,
-        maxRent: filters.maxRent,
-        amenities: filters.amenities,
-      });
-      setResults(filtered);
-      setIsLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [filters]);
+    const filtered = allPGs.filter((pg) => {
+      if (filters.gender && filters.gender !== "all" && pg.gender !== filters.gender) return false;
+      if (filters.food && filters.food !== "all" && pg.food !== filters.food && pg.food !== "both") return false;
+      if (filters.minRent && pg.rent < filters.minRent) return false;
+      if (filters.maxRent && pg.rent > filters.maxRent) return false;
+      if (filters.amenities && filters.amenities.length > 0) {
+        if (!filters.amenities.every((a) => pg.amenities.includes(a))) return false;
+      }
+      return true;
+    });
+    setResults(filtered);
+  }, [filters, allPGs]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -82,7 +78,7 @@ const SearchPage = () => {
             {/* Results Header */}
             <div className="flex items-center justify-between mb-4">
               <h1 className="text-lg font-semibold text-foreground">
-                {isLoading ? (
+                {isLoadingPGs ? (
                   "Searching..."
                 ) : (
                   <>
@@ -93,7 +89,7 @@ const SearchPage = () => {
             </div>
 
             {/* Results Grid */}
-            {isLoading ? (
+            {isLoadingPGs ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                 {[...Array(6)].map((_, i) => (
                   <PGCardSkeleton key={i} />

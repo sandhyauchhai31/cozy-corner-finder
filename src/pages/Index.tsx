@@ -2,7 +2,8 @@ import Header from "@/components/Header";
 import HeroBanner from "@/components/HeroBanner";
 import SearchBar from "@/components/SearchBar";
 import PGCard from "@/components/PGCard";
-import { mockPGs } from "@/data/mockPGs";
+import PGCardSkeleton from "@/components/PGCardSkeleton";
+import { usePGListings } from "@/hooks/usePGListings";
 import { Building2, Shield, Clock, Star } from "lucide-react";
 
 const banners = [
@@ -47,7 +48,8 @@ const features = [
 ];
 
 const Index = () => {
-  const featuredPGs = mockPGs.filter((pg) => pg.verified).slice(0, 4);
+  const { data: allPGs = [], isLoading } = usePGListings();
+  const featuredPGs = allPGs.filter((pg) => pg.verified).slice(0, 4);
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,9 +105,11 @@ const Index = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {featuredPGs.map((pg) => (
-              <PGCard key={pg.id} pg={pg} />
-            ))}
+            {isLoading
+              ? [...Array(4)].map((_, i) => <PGCardSkeleton key={i} />)
+              : featuredPGs.map((pg) => (
+                  <PGCard key={pg.id} pg={pg} />
+                ))}
           </div>
         </section>
 
