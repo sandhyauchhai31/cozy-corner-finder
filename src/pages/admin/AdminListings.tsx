@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { mockPGs } from "@/data/mockPGs";
 import { PG } from "@/types/pg";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -14,22 +14,6 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -39,8 +23,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Plus, Pencil, Trash2, Search, ShieldCheck } from "lucide-react";
+import { Plus, Pencil, Trash2, Search, ShieldCheck, ArrowLeft } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import PGListingForm from "@/components/admin/PGListingForm";
 
 const emptyPG: Partial<PG> = {
   name: "",
@@ -69,10 +54,9 @@ const emptyPG: Partial<PG> = {
 const AdminListings = () => {
   const [listings, setListings] = useState<PG[]>(mockPGs);
   const [search, setSearch] = useState("");
-  const [editOpen, setEditOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [formMode, setFormMode] = useState<"list" | "new" | "edit">("list");
   const [current, setCurrent] = useState<Partial<PG>>(emptyPG);
-  const [isNew, setIsNew] = useState(false);
   const { toast } = useToast();
 
   const filtered = listings.filter(
@@ -83,29 +67,27 @@ const AdminListings = () => {
 
   const handleEdit = (pg: PG) => {
     setCurrent({ ...pg });
-    setIsNew(false);
-    setEditOpen(true);
+    setFormMode("edit");
   };
 
   const handleNew = () => {
     setCurrent({ ...emptyPG, id: String(Date.now()) });
-    setIsNew(true);
-    setEditOpen(true);
+    setFormMode("new");
   };
 
-  const handleSave = () => {
-    if (!current.name || !current.address) {
+  const handleSave = (data: PG) => {
+    if (!data.name || !data.address) {
       toast({ title: "Name and address are required", variant: "destructive" });
       return;
     }
-    if (isNew) {
-      setListings((prev) => [...prev, current as PG]);
+    if (formMode === "new") {
+      setListings((prev) => [...prev, data]);
       toast({ title: "PG listing created" });
     } else {
-      setListings((prev) => prev.map((p) => (p.id === current.id ? (current as PG) : p)));
+      setListings((prev) => prev.map((p) => (p.id === data.id ? data : p)));
       toast({ title: "PG listing updated" });
     }
-    setEditOpen(false);
+    setFormMode("list");
   };
 
   const handleDelete = () => {
@@ -115,6 +97,29 @@ const AdminListings = () => {
     toast({ title: "PG listing deleted" });
   };
 
+  // ── Full-page form view ──
+  if (formMode !== "list") {
+    return (
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => setFormMode("list")}>
+            <ArrowLeft className="w-4 h-4 mr-1" /> Back
+          </Button>
+          <h2 className="text-2xl font-bold text-foreground">
+            {formMode === "new" ? "Add New PG" : "Edit PG"}
+          </h2>
+        </div>
+        <PGListingForm
+          initialData={current}
+          isNew={formMode === "new"}
+          onSave={handleSave}
+          onCancel={() => setFormMode("list")}
+        />
+      </div>
+    );
+  }
+
+  // ── Table listing view ──
   return (
     <div className="space-y-4">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -191,67 +196,6 @@ const AdminListings = () => {
           </Table>
         </CardContent>
       </Card>
-
-      {/* Edit / Add Dialog */}
-      <Dialog open={editOpen} onOpenChange={setEditOpen}>
-        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>{isNew ? "Add New PG" : "Edit PG"}</DialogTitle>
-          </DialogHeader>
-          <div className="grid gap-4 py-2">
-            <div className="grid gap-1.5">
-              <Label>Name</Label>
-              <Input value={current.name || ""} onChange={(e) => setCurrent({ ...current, name: e.target.value })} />
-            </div>
-            <div className="grid gap-1.5">
-              <Label>Address</Label>
-              <Input value={current.address || ""} onChange={(e) => setCurrent({ ...current, address: e.target.value })} />
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="grid gap-1.5">
-                <Label>Base Rent (₹)</Label>
-                <Input type="number" value={current.rent || 0} onChange={(e) => setCurrent({ ...current, rent: Number(e.target.value) })} />
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Deposit (₹)</Label>
-                <Input type="number" value={current.deposit || 0} onChange={(e) => setCurrent({ ...current, deposit: Number(e.target.value) })} />
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-3">
-              <div className="grid gap-1.5">
-                <Label>Gender</Label>
-                <Select value={current.gender || "boys"} onValueChange={(v) => setCurrent({ ...current, gender: v as PG["gender"] })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="boys">Boys</SelectItem>
-                    <SelectItem value="girls">Girls</SelectItem>
-                    <SelectItem value="coliving">Co-living</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid gap-1.5">
-                <Label>Food</Label>
-                <Select value={current.food || "veg"} onValueChange={(v) => setCurrent({ ...current, food: v as PG["food"] })}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="veg">Veg</SelectItem>
-                    <SelectItem value="nonveg">Non-Veg</SelectItem>
-                    <SelectItem value="both">Both</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="grid gap-1.5">
-              <Label>Description</Label>
-              <Textarea value={current.description || ""} onChange={(e) => setCurrent({ ...current, description: e.target.value })} rows={3} />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setEditOpen(false)}>Cancel</Button>
-            <Button onClick={handleSave}>{isNew ? "Create" : "Save Changes"}</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
 
       {/* Delete Confirmation */}
       <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
