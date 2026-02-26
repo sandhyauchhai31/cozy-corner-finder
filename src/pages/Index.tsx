@@ -49,7 +49,7 @@ const features = [
 
 const Index = () => {
   const { data: allPGs = [], isLoading } = usePGListings();
-  const featuredPGs = allPGs.filter((pg) => pg.verified).slice(0, 4);
+  const featuredPGs = allPGs.slice(0, 8);
 
   return (
     <div className="min-h-screen bg-background">
