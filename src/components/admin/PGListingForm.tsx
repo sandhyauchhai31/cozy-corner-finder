@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { PG, RoomType, BathroomType, Gender, FoodType, Amenity } from "@/types/pg";
+import { useImageUpload } from "@/hooks/useImageUpload";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -29,6 +30,7 @@ import {
   Utensils,
   X,
   Star,
+  Upload,
 } from "lucide-react";
 
 const AMENITY_OPTIONS: { value: Amenity; label: string; icon: React.ReactNode }[] = [
@@ -77,6 +79,9 @@ const PGListingForm = ({ initialData, isNew, onSave, onCancel }: PGListingFormPr
   const [pg, setPg] = useState<Partial<PG>>({ ...initialData });
   const [newImageUrl, setNewImageUrl] = useState("");
   const [roomImageUrls, setRoomImageUrls] = useState<Record<number, string>>({});
+  const { uploadMultipleImages, uploading } = useImageUpload();
+  const pgImageInputRef = useRef<HTMLInputElement>(null);
+  const roomImageInputRefs = useRef<Record<number, HTMLInputElement | null>>({});
 
   const updateField = <K extends keyof PG>(key: K, value: PG[K]) => {
     setPg((prev) => ({ ...prev, [key]: value }));
@@ -96,6 +101,14 @@ const PGListingForm = ({ initialData, isNew, onSave, onCancel }: PGListingFormPr
     if (!newImageUrl.trim()) return;
     updateField("images", [...(pg.images || []), newImageUrl.trim()]);
     setNewImageUrl("");
+  };
+
+  const handlePGImageUpload = async (files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const urls = await uploadMultipleImages(files);
+    if (urls.length > 0) {
+      updateField("images", [...(pg.images || []), ...urls]);
+    }
   };
 
   const removePGImage = (index: number) => {
@@ -129,6 +142,16 @@ const PGListingForm = ({ initialData, isNew, onSave, onCancel }: PGListingFormPr
     rooms[roomIndex] = { ...rooms[roomIndex], images: [...rooms[roomIndex].images, url.trim()] };
     updateField("rooms", rooms);
     setRoomImageUrls((prev) => ({ ...prev, [roomIndex]: "" }));
+  };
+
+  const handleRoomImageUpload = async (roomIndex: number, files: FileList | null) => {
+    if (!files || files.length === 0) return;
+    const urls = await uploadMultipleImages(files);
+    if (urls.length > 0) {
+      const rooms = [...(pg.rooms || [])];
+      rooms[roomIndex] = { ...rooms[roomIndex], images: [...rooms[roomIndex].images, ...urls] };
+      updateField("rooms", rooms);
+    }
   };
 
   const removeRoomImage = (roomIndex: number, imgIndex: number) => {
@@ -174,6 +197,22 @@ const PGListingForm = ({ initialData, isNew, onSave, onCancel }: PGListingFormPr
           />
           <Button variant="secondary" onClick={addPGImage} size="sm">
             Add
+          </Button>
+          <input
+            ref={pgImageInputRef}
+            type="file"
+            accept="image/*"
+            multiple
+            className="hidden"
+            onChange={(e) => handlePGImageUpload(e.target.files)}
+          />
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => pgImageInputRef.current?.click()}
+            disabled={uploading}
+          >
+            {uploading ? "Uploading…" : "Upload"}
           </Button>
         </div>
       </section>
@@ -292,6 +331,23 @@ const PGListingForm = ({ initialData, isNew, onSave, onCancel }: PGListingFormPr
                 />
                 <Button variant="secondary" size="sm" className="h-8 text-xs" onClick={() => addRoomImage(ri)}>
                   Add
+                </Button>
+                <input
+                  ref={(el) => { roomImageInputRefs.current[ri] = el; }}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={(e) => handleRoomImageUpload(ri, e.target.files)}
+                />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8 text-xs"
+                  onClick={() => roomImageInputRefs.current[ri]?.click()}
+                  disabled={uploading}
+                >
+                  {uploading ? "Uploading…" : "Upload"}
                 </Button>
               </div>
             </div>
